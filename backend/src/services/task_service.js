@@ -13,7 +13,7 @@ export async function deleteTask(id) {
   return await Task.destroy({ where: { id } });
 }
 
-export async function findTask(query) {
+export async function findTasks(query) {
   return await Task.findAll({
     where: {
       title: {
@@ -21,4 +21,8 @@ export async function findTask(query) {
       }
     }
   });
+}
+
+export async function findTaskById(id) {
+  return await Task.findByPk(id);
 }

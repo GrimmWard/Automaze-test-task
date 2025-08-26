@@ -6,10 +6,10 @@ const Task = sequelize.define("Task", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
-    type: DataTypes.TEXT,
-    allowNull: true,
-  },
+  // description: {
+  //   type: DataTypes.TEXT,
+  //   allowNull: true,
+  // },
   done: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,

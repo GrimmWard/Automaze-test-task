@@ -14,7 +14,7 @@ app.use(express.json());
 app.use('/api/tasks', tasks)
 
 
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync({ alter: true }).then(() => {
     console.log('Database Connected!');
 
     app.listen(port, () => {
