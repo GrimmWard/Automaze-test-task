@@ -2,10 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import tasks from './src/routes/routes.js';
 import sequelize from './src/config/db.js';
+import 'dotenv/config';
 
 
 const app = express()
-const port = 8080
+const port = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json());
