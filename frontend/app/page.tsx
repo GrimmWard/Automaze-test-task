@@ -1,17 +1,17 @@
 "use client"
 
 import { AddTaskButton } from "@/components/AddTaskButton";
+import { CustomSelect } from "@/components/Select";
 import { Task } from "@/components/Task";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useTasks } from "@/hooks/useTasks";
 import { TaskType } from "@/types";
 
 
 export default function Home() {
 
-  const { filteredTasks, searchQuery, setSearchQuery, loading, error, setTasks, handleToggleDone, handleDelete, setStatusFilter, setSortOrder } = useTasks();
+  const { filteredTasks, searchQuery, setSearchQuery, loading, error, setTasks, handleToggleDone, handleDelete, setStatusFilter, setSortOrder, statusFilter, sortOrder } = useTasks();
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 flex-col">
@@ -38,25 +38,27 @@ export default function Home() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <Select onValueChange={(val) => setStatusFilter(val as "all" | "done" | "undone")}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Filter" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value="done">Done</SelectItem>
-                <SelectItem value="undone">Undone</SelectItem>
-              </SelectContent>
-            </Select>
-            <Select onValueChange={(val) => setSortOrder(val as "asc" | "desc")}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Sort" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="asc">ASC</SelectItem>
-                <SelectItem value="desc">DESC</SelectItem>
-              </SelectContent>
-            </Select>
+            <CustomSelect
+              value={statusFilter}
+              onChange={(val) => setStatusFilter(val)}
+              placeholder="Filter"
+              options={[
+                { value: "all", label: "All" },
+                { value: "done", label: "Done" },
+                { value: "undone", label: "Undone" },
+              ]}
+            />
+
+            <CustomSelect
+              value={sortOrder}
+              onChange={(val) => setSortOrder(val)}
+              placeholder="Sort"
+              options={[
+                { value: "default", label: "Default" },
+                { value: "asc", label: "ASC" },
+                { value: "desc", label: "DESC" },
+              ]}
+            />
 
           </div>
 
@@ -67,6 +69,13 @@ export default function Home() {
           {!loading && filteredTasks.length === 0 && (
             <p className="text-gray-500">No tasks found. Add one!</p>
           )}
+          
+          <div className="flex items-center justify-between gap-3 px-4 py-2 bg-gray-100 rounded-md font-semibold text-gray-600 ">
+            <div className="w-6"></div>
+            <div className="flex-1 text-xl">Title</div>
+            <div className="w-16 text-center">Priority</div>
+            <div className="w-24 text-center">Actions</div>
+          </div>
 
 
           {
@@ -80,12 +89,6 @@ export default function Home() {
             ))}
 
         </CardContent>
-
-
-        {/* <CardFooter>
-          <p>Card Footer</p>
-          TODO: Maybe add pagination here
-        </CardFooter> */}
       </Card>
     </div>
   );

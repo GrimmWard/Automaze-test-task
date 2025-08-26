@@ -13,7 +13,9 @@ export function useTasks() {
   const [statusFilter, setStatusFilter] = useState<"all" | "done" | "undone">(
     "all"
   );
-  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+  const [sortOrder, setSortOrder] = useState<"default" | "asc" | "desc">(
+    "default"
+  );
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -44,9 +46,11 @@ export function useTasks() {
       if (statusFilter === "undone")
         filtered = filtered.filter((task) => !task.done);
 
-      filtered.sort((a, b) =>
-        sortOrder === "asc" ? a.priority - b.priority : b.priority - a.priority
-      );
+      if (sortOrder === "asc") {
+        filtered.sort((a, b) => a.priority - b.priority);
+      } else if (sortOrder === "desc") {
+        filtered.sort((a, b) => b.priority - a.priority);
+      }
 
       setFilteredTasks(filtered);
     }, 300); // debounce 300ms
@@ -90,6 +94,8 @@ export function useTasks() {
     handleDelete,
     setTasks,
     setStatusFilter,
+    statusFilter,
     setSortOrder,
+    sortOrder,
   };
 }
